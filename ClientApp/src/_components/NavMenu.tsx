@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Navbar, NavbarBrand, NavItem } from 'reactstrap';
 import ToggleTheme from './ToggleTheme';
 import './NavMenu.css';
 import { ThemeContext } from '../_helpers/theme';
@@ -14,7 +13,8 @@ export default function NavMenu(): JSX.Element {
 
     return(
         <header>
-          <Navbar className="navbar-expand-lg ng-white mb-3" container light>
+          <Navbar className="navbar-expand-lg border-bottom ng-white mb-3" container light>
+            <NavbarBrand className="mx-auto" href="/">Todo List App</NavbarBrand>
             <ul className="navbar-nav flex-grow ms-auto">
               <NavItem>
                 <ThemeContext.Consumer>

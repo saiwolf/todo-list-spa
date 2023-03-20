@@ -5,6 +5,7 @@ using Newtonsoft.Json.Converters;
 using Serilog;
 using TodoListSPA.Contracts;
 using TodoListSPA.Data;
+using TodoListSPA.Entities.Configuration;
 using TodoListSPA.Helpers;
 using TodoListSPA.Services;
 
@@ -45,6 +46,9 @@ try
     });
 
     services.AddCors();
+
+    // App settings
+    services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
     // Todo Service
     services.AddTransient<ITodoService, TodoService>();

@@ -7,6 +7,9 @@ using TodoListSPA.Entities.DTO;
 
 namespace TodoListSPA.Services;
 
+/// <summary>
+/// Service that provides CRUD methods for the <see cref="Todo"/> model.
+/// </summary>
 public class TodoService : ITodoService
 {
     private readonly DataContext _context;
@@ -68,6 +71,7 @@ public class TodoService : ITodoService
 
     public async Task<Todo> UpdateAsync(Guid id, UpdateTodo model)
     {
+        // Sanity check!
         if (id != model.Id)
             throw new Exception("ID mis-match found during update. Aborting!");
 
@@ -89,7 +93,14 @@ public class TodoService : ITodoService
 
     #region Private/Helper methods
 
+    /// <summary>
+    /// Asynchronous method serving as a one-stop shop for getting DB records via their <paramref name="id"/>.
+    /// </summary>
+    /// <param name="id">A <see cref="Guid"/> used to lookup record in DB.</param>
+    /// <returns><see cref="Todo"/> corresponding to given <paramref name="id"/> or null.</returns>
+#pragma warning disable IDE1006 // Naming Styles
     private async Task<Todo?> _GetAsync(Guid id)
+#pragma warning restore IDE1006 // Naming Styles
         => await _context.Todos.FindAsync(id);
     #endregion
 }

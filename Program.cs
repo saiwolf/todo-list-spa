@@ -1,4 +1,6 @@
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -20,7 +22,12 @@ try
         .Enrich.FromLogContext()
         .ReadFrom.Configuration(ctx.Configuration));
 
-    services.AddControllersWithViews();
+    services.AddControllersWithViews().AddNewtonsoftJson(newtonsoftJson =>
+    {
+        newtonsoftJson.SerializerSettings.Converters.Add(new StringEnumConverter());
+        newtonsoftJson.SerializerSettings.NullValueHandling = NullValueHandling.Include;
+        newtonsoftJson.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+    });
 
     services.AddCors();
 

@@ -3,7 +3,5 @@
 public enum TodoStatus
 {
     Open,
-    Pending,
-    Deleted,
     Completed
 }

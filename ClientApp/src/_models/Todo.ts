@@ -7,10 +7,8 @@ export interface ITodo {
 }
 
 export enum TodoStatus {
-    Open,
-    Pending,
-    Deleted,
-    Completed,
+    Open = "Open",
+    Completed = "Completed",
 }
 
 export interface IAddTodo {
@@ -26,4 +24,20 @@ export interface IUpdateTodo {
 
 export interface IDeleteTodo {
     id: string,
+}
+
+export interface ITodoUI {
+    status: TodoStatus,
+    icon: string,
+}
+
+export const TodoStatusIcon = (status: TodoStatus): string => {
+    switch (status) {
+        case TodoStatus.Open:
+            return 'bi-patch-question-fill';
+        case TodoStatus.Completed:
+            return 'bi-patch-check-fill';
+        default:
+            return 'bi-exclamation-triangle-fill';
+    }
 }

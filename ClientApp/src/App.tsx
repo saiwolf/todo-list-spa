@@ -1,7 +1,7 @@
-import { createBrowserRouter, Route, RouterProvider, Routes } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 import { Layout } from './_components';
-import './custom.css';
+import './custom.scss';
 
 const baseUrl = import.meta.env.BASE_URL;
 

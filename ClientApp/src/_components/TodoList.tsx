@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { ITodo } from '../_models/Todo';
+import { ITodo, TodoStatusIcon } from '../_models/Todo';
+import '~bootstrap-icons/font/bootstrap-icons.css';
 
 export function TodoList() {
     const [isLoading, setLoading] = useState<boolean>(true);
@@ -11,6 +12,7 @@ export function TodoList() {
             let data = await response.json();
             setTodos(data);
             setLoading(false);
+            //console.log(data);
         }
 
         fetchTodos();
@@ -29,7 +31,9 @@ const TodoFC = ({ todos }: { todos: ITodo[]}): JSX.Element => {
     return (
         <>
             {todos.map((todo, index) => (
-                <p key={index}>Name: {todo.name} - Status: {todo.status}</p>
+                <p key={index}>Name: {todo.name} -
+                    <i className={`bi ${TodoStatusIcon(todo.status)}`}></i>
+                </p>
             ))}
         </>
     )

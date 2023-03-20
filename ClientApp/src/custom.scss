@@ -1,2 +1,46 @@
 @import '~bootstrap/scss/bootstrap';
 
+$color-mode-type: data;
+
+.todo-item {
+    font-weight: bold !important;
+    width: auto !important;
+}
+
+.status-done {
+    font-weight: bolder;
+};
+
+.status-open {
+    font-weight: bolder;
+};
+
+@include color-mode(light) {
+    .todo-item {
+        background-color: $gray-300;
+        color: #000 !important;        
+    };
+
+    .status-done {
+        @extend .text-success;
+    };
+
+    .status-open {
+        @extend .text-danger;
+    };
+}
+
+@include color-mode(dark) {
+    .status-done {
+        color: $teal-500;
+    };
+
+    .status-open {
+        color: $red-700;
+    };
+
+    .todo-item {
+        background-color: $secondary;
+        color: $light;
+    }
+}

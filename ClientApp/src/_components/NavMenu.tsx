@@ -15,14 +15,12 @@ export default function NavMenu(): JSX.Element {
         <header>
           <Navbar className="navbar-expand-lg border-bottom ng-white mb-3" container light>
             <NavbarBrand className="mx-auto" href="/">Todo List App</NavbarBrand>
-            <ul className="navbar-nav flex-grow ms-auto">
-              <NavItem>
-                <ThemeContext.Consumer>
-                  {({ theme }) => (
-                    <ToggleTheme theme={theme} />
-                  )}
-                </ThemeContext.Consumer>
-              </NavItem>
+            <ul className="navbar-nav flex-grow ms-auto">              
+              <ThemeContext.Consumer>
+                {({ theme }) => (
+                  <ToggleTheme theme={theme} />
+                )}
+              </ThemeContext.Consumer>              
             </ul>        
           </Navbar>
       </header>

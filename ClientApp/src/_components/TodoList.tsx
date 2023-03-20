@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { ITodo, TodoStatusIcon } from '../_models/Todo';
-import '~bootstrap-icons/font/bootstrap-icons.css';
+import { ITodo } from '../_models/Todo';
+
+import { TodoItem } from './TodoItem';
+import { Container, ListGroup } from 'reactstrap';
 
 export function TodoList() {
     const [isLoading, setLoading] = useState<boolean>(true);
@@ -19,23 +21,27 @@ export function TodoList() {
     }, [])
 
     return (
-        isLoading ? (
-            <p><em>Loading...Please wait...</em></p>
-        ) : (
+        <>
+            <h2 className="text-center fw-bolder">Todos</h2>
+            <hr />
+            {isLoading ? (
+                <p><em>Loading...Please wait...</em></p>
+            ) : (
                 <TodoFC todos={todos} />
-        )
+            )}
+        </>
     );
 }
 
 const TodoFC = ({ todos }: { todos: ITodo[]}): JSX.Element => {
     return (
-        <>
-            {todos.map((todo, index) => (
-                <p key={index}>Name: {todo.name} -
-                    <i className={`bi ${TodoStatusIcon(todo.status)}`}></i>
-                </p>
-            ))}
-        </>
+        <Container>
+            <ListGroup flush>
+                {todos.map((todo, index) => (
+                    <TodoItem key={index} todo={todo} />
+                ))}
+            </ListGroup>
+        </Container>
     )
 }
 

@@ -34,9 +34,9 @@ export interface ITodoUI {
 export const TodoStatusIcon = (status: TodoStatus): string => {
     switch (status) {
         case TodoStatus.Open:
-            return 'bi-patch-question-fill';
+            return 'bi-x status-open';
         case TodoStatus.Completed:
-            return 'bi-patch-check-fill';
+            return 'bi-check2 status-done';
         default:
             return 'bi-exclamation-triangle-fill';
     }

@@ -13,7 +13,7 @@ export function ToggleTheme({ theme }: { theme: string}): JSX.Element {
                         <i className={`bi ${darkMode ? 'bi-moon-stars-fill' : 'bi-sun-fill'}`}></i>&nbsp;
                         <span>{darkMode ? 'Dark' : 'Light'}</span>
                     </DropdownToggle>
-                    <DropdownMenu right>
+                    <DropdownMenu end>
                         <DropdownItem onClick={() => {
                             setDarkMode(false);
                             changeTheme(themes.light);

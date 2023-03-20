@@ -23,7 +23,7 @@ public static class DbInitializer
                 .RuleFor(u => u.Created, f => f.Date.Recent())
                 .RuleFor(u => u.Status, f => f.PickRandom<TodoStatus>());
 
-            List<Todo> todos = fakeTodos.Generate(50);
+            List<Todo> todos = fakeTodos.Generate(10);
 
             context.Todos.AddRange(todos);
             context.SaveChanges();

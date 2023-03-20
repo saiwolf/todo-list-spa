@@ -3,8 +3,10 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
+using TodoListSPA.Contracts;
 using TodoListSPA.Data;
 using TodoListSPA.Helpers;
+using TodoListSPA.Services;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -33,6 +35,8 @@ try
         options.UseSqlServer(dbConn);
     });
 
+    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
     services.AddControllersWithViews().AddNewtonsoftJson(newtonsoftJson =>
     {
         newtonsoftJson.SerializerSettings.Converters.Add(new StringEnumConverter());
@@ -41,6 +45,9 @@ try
     });
 
     services.AddCors();
+
+    // Todo Service
+    services.AddTransient<ITodoService, TodoService>();
 
     if (environment.IsDevelopment())
     {

@@ -1,18 +1,10 @@
 import { RouteObject } from 'react-router-dom';
-import { Counter, FetchData, Home } from './components';
+import { TodoList } from './_components/TodoList';
 
 const AppRoutes: RouteObject[] = [
     {
         index: true,
-        element: <Home />
-    },
-    {
-        path: '/counter',
-        element: <Counter />
-    },
-    {
-        path: '/fetch-data',
-        element: <FetchData />
+        element: <TodoList />
     }
 ];
 

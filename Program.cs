@@ -61,6 +61,16 @@ try
         {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "TodoList SPA API V1");
         });
+
+#if DEBUG
+        bool seed = app.Configuration.GetValue<bool>("seed");
+        if (seed)
+        {
+            using IServiceScope scope = app.Services.CreateScope();
+            DataContext? context = scope.ServiceProvider.GetService<DataContext>();
+            DbInitializer.SeedDb(context!);
+        }
+#endif
     }
     
     if (!app.Environment.IsDevelopment())

@@ -1,7 +1,9 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
+using TodoListSPA.Data;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -21,6 +23,14 @@ try
         .WriteTo.Console()
         .Enrich.FromLogContext()
         .ReadFrom.Configuration(ctx.Configuration));
+
+    string dbConn = builder.Configuration.GetConnectionString("DataContext") ??
+        throw new Exception("Connection String missing!");
+
+    services.AddDbContext<DataContext>(options =>
+    {
+        options.UseSqlServer(dbConn);
+    });
 
     services.AddControllersWithViews().AddNewtonsoftJson(newtonsoftJson =>
     {

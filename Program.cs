@@ -1,0 +1,90 @@
+using Microsoft.OpenApi.Models;
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
+
+try
+{
+    Log.Information("Application starting up...");
+
+    WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+    IWebHostEnvironment environment = builder.Environment;
+    IServiceCollection? services = builder.Services;
+
+    // Add services to the container.
+
+    builder.Host.UseSerilog((ctx, lc) => lc
+        .WriteTo.Console()
+        .Enrich.FromLogContext()
+        .ReadFrom.Configuration(ctx.Configuration));
+
+    services.AddControllersWithViews();
+
+    services.AddCors();
+
+    if (environment.IsDevelopment())
+    {
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo List SPA API", Description = "ASP.NET + React + Vite" });            
+        });
+
+    }
+
+    WebApplication app = builder.Build();
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "TodoList SPA API V1");
+        });
+    }
+    
+    if (!app.Environment.IsDevelopment())
+    {
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        app.UseHsts();
+    }
+
+    app.UseHttpsRedirection();
+    app.UseSerilogRequestLogging();
+    app.UseStaticFiles();
+    app.UseRouting();
+
+    app.UseCors(opts =>
+    {
+        opts.WithOrigins("https://localhost:3000");
+    });
+
+    if (app.Environment.IsDevelopment())
+        app.MapGet("/", (HttpResponse response) => response.Redirect("/swagger")).ExcludeFromDescription();
+    else
+        app.MapGet("/", () => "").ExcludeFromDescription();
+
+
+    app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller}/{action=Index}/{id?}");
+
+    app.MapFallbackToFile("index.html");
+
+    app.Run();
+
+}
+catch (Exception ex)
+{
+    if (ex.GetType().Name.Equals("HostAbortedException", StringComparison.Ordinal))
+        throw;
+    Log.Fatal(ex, "Unhandled error in application. Application will now exit.");
+}
+finally
+{
+    Log.Information("Application shutting down...");
+    Log.CloseAndFlush();
+}

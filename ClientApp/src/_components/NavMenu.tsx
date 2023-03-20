@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { useState } from 'react';
+import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import ToggleTheme from './ToggleTheme';
 import './NavMenu.css';
+import { ThemeContext } from '../_helpers/theme';
 
 export default function NavMenu(): JSX.Element {
     const [collapsed, setCollapsed] = useState<boolean>(true);
@@ -12,23 +14,17 @@ export default function NavMenu(): JSX.Element {
 
     return(
         <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
-          <NavbarBrand tag={Link} to="/">Company.WebApplication1</NavbarBrand>
-          <NavbarToggler onClick={() => toggleNavbar} className="mr-2" />
-          <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
-            <ul className="navbar-nav flex-grow">
+          <Navbar className="navbar-expand-lg ng-white mb-3" container light>
+            <ul className="navbar-nav flex-grow ms-auto">
               <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+                <ThemeContext.Consumer>
+                  {({ theme }) => (
+                    <ToggleTheme theme={theme} />
+                  )}
+                </ThemeContext.Consumer>
               </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
-              </NavItem>
-            </ul>
-          </Collapse>
-        </Navbar>
+            </ul>        
+          </Navbar>
       </header>
     );
 }

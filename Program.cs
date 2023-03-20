@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
 using TodoListSPA.Data;
+using TodoListSPA.Helpers;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -46,7 +47,8 @@ try
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo List SPA API", Description = "ASP.NET + React + Vite" });            
+            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo List SPA API", Description = "ASP.NET + React + Vite" });
+            options.SchemaFilter<EnumSchemaFilter>();
         });
 
     }

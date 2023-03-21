@@ -1,13 +1,14 @@
 # Todo List SPA
-  A todo list app written with ASP.NET Core SPA with React bundled with Vite.
+
+A todo list app written with [ASP.NET Core SPA with React](https://learn.microsoft.com/en-us/aspnet/core/client-side/spa/react?view=aspnetcore-7.0&tabs=visual-studio) using [Typescript](https://www.typescriptlang.org/) customized to run with [Vite](https://vitejs.dev/) instead of `react-scripts`.
 
 ## Requirements
 
 You'll need:
-* npm or yarn. If you're using yarn, then you'll need to update the .csproj file to use yarn instead of npm.
+* `npm` or `yarn`. If you're using `yarn`, then you'll need to update the `.csproj` file to use `yarn` instead of `npm`.
 * .NET 7 SDK with your IDE of choice.
-* An instance of SQL Server to connect to. You can utilize SQL LocalDB for testing purposes.
-  * If you want to switch to another DB provider, you need to install the relevant NuGet package and change the DbContext option in Program.cs. You'll also need to delete the Migrations folder and regenerate the migrations for your particular DB.
+* An instance of SQL Server to connect to. You can utilize SQL Server Express [LocalDB](https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb?view=sql-server-ver16) for testing purposes.
+  * If you want to switch to another DB provider, you need to install the relevant NuGet package and change the DbContext option in Program.cs. You'll also need to regenerate the migrations via `dotnet-ef`.
 
 ## API Setup
 
@@ -23,8 +24,14 @@ You'll need:
    dotnet user-secrets init
    ```
 4. Copy the content of `appsettings.Example.json` to the secrets file and tweak as needed.
-   1. Windows: `%APPDATA%\Microsoft\UserSecrets\<user_secrets_id>\secrets.json`
-   2. Linux/macOS: `~/.microsoft/usersecrets/<user_secrets_id>/secrets.json`
+   1. Windows: 
+      ```
+      %APPDATA%\Microsoft\UserSecrets\<user_secrets_id>\secrets.json
+      ```
+   2. Linux/macOS: 
+      ```
+      ~/.microsoft/usersecrets/<user_secrets_id>/secrets.json
+      ```
 5. Run the DB Seed routine to populate the DB with sample data
    ```
    dotnet run seed=True

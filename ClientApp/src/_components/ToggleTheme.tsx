@@ -2,7 +2,16 @@ import { useState } from 'react';
 import { ThemeContext, themes } from '../_helpers/theme';
 import { DropdownToggle, DropdownMenu, DropdownItem, UncontrolledDropdown } from 'reactstrap';
 
-export function ToggleTheme({ theme }: { theme: string}): JSX.Element {
+type ToggleThemeProps = {
+    theme: string;
+}
+
+/**
+ * 
+ * @param {ToggleThemeProps} ToggleThemeProps Props object containing theme name.
+ * @returns A Bootstrap Dropdown Menu for selecting a theme.
+ */
+export function ToggleTheme({ theme }: ToggleThemeProps): JSX.Element {
     const [darkMode, setDarkMode] = useState(theme === themes.dark ? true : false);
 
     return (

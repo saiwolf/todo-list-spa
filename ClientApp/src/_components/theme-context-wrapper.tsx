@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeContext, themes } from '../_helpers/theme';
 
+/**
+ * Context wrapper for ThemeContext
+ * @param {React.PropsWithChildren} props React Props
+ * @returns {JSX.Element}
+ */
+
 export default function ThemeContextWrapper(props: React.PropsWithChildren) {
     let preferredTheme = localStorage.getItem('theme');
     if (!preferredTheme) {

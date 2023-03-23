@@ -27,19 +27,19 @@ public class TodoService : ITodoService
             yield return todo;
     }
 
-    public async Task<List<Todo>?> GetAllAsync()
+    public async Task<List<Todo>> GetAllAsync()
     {
         List<Todo>? todos = await _context.Todos.ToListAsync();
         if (todos is null || !todos.Any())
-            return null;
+            return new();
         return todos;
     }
 
-    public async Task<List<Todo>?> GetAllAsync(TodoStatus status)
+    public async Task<List<Todo>> GetAllAsync(TodoStatus status)
     {
         List<Todo>? todos = await _context.Todos.Where(w => w.Status == status).ToListAsync();
         if (todos is null || !todos.Any())
-            return null;
+            return new();
         return todos;
     }
 

@@ -17,13 +17,13 @@ public interface ITodoService
     /// Asynchronous method to return all <see cref="Todo"/>s in the DB table.
     /// </summary>
     /// <returns>A <see cref="Task"/> containing <see cref="List{T}"/> where <c>T</c> is <see cref="Todo"/> or <see cref="null"/></returns>
-    Task<List<Todo>?> GetAllAsync();
+    Task<List<Todo>> GetAllAsync();
     /// <summary>
     /// Asynchronous method to return <see cref="Todo"/>s in the DB table matching <paramref name="status"/>.
     /// </summary>
     /// <param name="status">Status to query. Must be of <see cref="TodoStatus"/></param>
     /// <returns>A <see cref="Task"/> containing <see cref="List{T}"/> where <c>T</c> is <see cref="Todo"/> or <see cref="null"/></returns>
-    Task<List<Todo>?> GetAllAsync(TodoStatus status);
+    Task<List<Todo>> GetAllAsync(TodoStatus status);
     /// <summary>
     /// <para>
     /// Asynchronous method to return <see cref="Todo"/> by supplied ID.

@@ -31,7 +31,7 @@ public class TodosController : ControllerBase
         try
         {
             List<Todo>? todos = await _todoService.GetAllAsync();
-            if (todos is null || !todos.Any()) return Ok(); // Rather return a blank 200 OK than a 404.
+            if (!todos.Any()) return Ok(); // Rather return a blank 200 OK than a 404.
             return Ok(todos);
         }
         catch (Exception ex)
@@ -47,7 +47,7 @@ public class TodosController : ControllerBase
         try
         {
             List<Todo>? todos = await _todoService.GetAllAsync(status);
-            if (todos is null || !todos.Any()) return Ok(); // Rather return a blank 200 OK than a 404.
+            if (!todos.Any()) return Ok(); // Rather return a blank 200 OK than a 404.
             return Ok(todos);
         }
         catch (Exception ex)

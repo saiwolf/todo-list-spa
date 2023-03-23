@@ -4,6 +4,7 @@ using TodoListSPA.Contracts;
 using TodoListSPA.Data;
 using TodoListSPA.Entities;
 using TodoListSPA.Entities.DTO;
+using TodoListSPA.Helpers;
 
 namespace TodoListSPA.Services;
 
@@ -35,23 +36,28 @@ public class TodoService : ITodoService
         return todos;
     }
 
-    public async Task<List<Todo>> GetAllAsync(TodoStatus status)
+    public async Task<List<Todo>> GetAllAsync(string status)
     {
-        List<Todo>? todos = await _context.Todos.Where(w => w.Status == status).ToListAsync();
-        if (todos is null || !todos.Any())
-            return new();
-        return todos;
+        if (string.IsNullOrEmpty(status)) throw new ArgumentNullException(nameof(status));
+        
+        if (Enum.TryParse(status, true, out TodoStatus parsedStatus))
+        {
+            List<Todo>? todos = await _context.Todos.Where(w => w.Status == parsedStatus).ToListAsync();
+            if (todos is null || !todos.Any())
+                return new();
+            return todos;
+        }
+
+        throw new FormatException($"Unrecognized value: `{status}` in parameter: `{nameof(status)}`");
     }
 
-    public async Task<Todo?> GetByIdAsync(Guid id)
+    public async Task<Todo> GetByIdAsync(Guid id)
     {
-        Todo? todo = await _GetAsync(id);
-        if (todo is null)
-            return null;
+        Todo todo = await _GetAsync(id);
         return todo;
     }
 
-    public async Task<Todo?> GetByIdAsync(string id)
+    public async Task<Todo> GetByIdAsync(string id)
     {
         if (string.IsNullOrEmpty(id))
             throw new ArgumentNullException(nameof(id));
@@ -73,10 +79,9 @@ public class TodoService : ITodoService
     {
         // Sanity check!
         if (id != model.Id)
-            throw new Exception("ID mis-match found during update. Aborting!");
+            throw new AppException("ID mis-match found during update. Aborting!");
 
-        Todo? dbTodo = await _GetAsync(id);
-        if (dbTodo is null) throw new Exception($"Unable to find record with ID: `{id}`");
+        Todo dbTodo = await _GetAsync(id);
         _mapper.Map(model, dbTodo);
         _context.Todos.Update(dbTodo);
         await _context.SaveChangesAsync();
@@ -85,8 +90,7 @@ public class TodoService : ITodoService
 
     public async Task DeleteAsync(Guid id)
     {
-        Todo? dbTodo = await _GetAsync(id);
-        if (dbTodo is null) throw new Exception($"Unable to find record with ID: `{id}`");
+        Todo dbTodo = await _GetAsync(id);
         _context.Todos.Remove(dbTodo);
         await _context.SaveChangesAsync();
     }
@@ -99,8 +103,12 @@ public class TodoService : ITodoService
     /// <param name="id">A <see cref="Guid"/> used to lookup record in DB.</param>
     /// <returns><see cref="Todo"/> corresponding to given <paramref name="id"/> or null.</returns>
 #pragma warning disable IDE1006 // Naming Styles
-    private async Task<Todo?> _GetAsync(Guid id)
+    private async Task<Todo> _GetAsync(Guid id)
 #pragma warning restore IDE1006 // Naming Styles
-        => await _context.Todos.FindAsync(id);
+    {
+        Todo? record = await _context.Todos.FindAsync(id);
+        if (record is null) throw new KeyNotFoundException($"Unable to find record with ID: `{id}`");
+        return record;
+    }
     #endregion
 }

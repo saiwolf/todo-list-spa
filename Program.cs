@@ -97,6 +97,9 @@ try
     app.UseStaticFiles();
     app.UseRouting();
 
+    // global error handler
+    app.UseMiddleware<ErrorHandlerMiddleware>();
+
     app.UseCors(opts =>
     {
         opts.WithOrigins("https://localhost:3000");

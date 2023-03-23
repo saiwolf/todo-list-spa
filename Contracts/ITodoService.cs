@@ -21,9 +21,9 @@ public interface ITodoService
     /// <summary>
     /// Asynchronous method to return <see cref="Todo"/>s in the DB table matching <paramref name="status"/>.
     /// </summary>
-    /// <param name="status">Status to query. Must be of <see cref="TodoStatus"/></param>
+    /// <param name="status">Status to query.</param>
     /// <returns>A <see cref="Task"/> containing <see cref="List{T}"/> where <c>T</c> is <see cref="Todo"/> or <see cref="null"/></returns>
-    Task<List<Todo>> GetAllAsync(TodoStatus status);
+    Task<List<Todo>> GetAllAsync(string status);
     /// <summary>
     /// <para>
     /// Asynchronous method to return <see cref="Todo"/> by supplied ID.
@@ -31,7 +31,7 @@ public interface ITodoService
     /// </summary>
     /// <param name="id">A <see cref="Guid"/> value to lookup.</param>
     /// <returns><see cref="Todo"/> with ID equal to <paramref name="id"/> or null</returns>
-    Task<Todo?> GetByIdAsync(Guid id);
+    Task<Todo> GetByIdAsync(Guid id);
     /// <summary>
     /// <para>
     /// Asynchronous convienence method for <see cref="string"/> form of GUID IDs.
@@ -41,7 +41,7 @@ public interface ITodoService
     /// <returns><see cref="Todo"/> with ID equal to <paramref name="id"/> or null</returns>
     /// <exception cref="ArgumentException"><paramref name="id"/> was null or empty.</exception>
     /// <exception cref="FormatException"><paramref name="id" /> was not a valid <see cref="Guid"/></exception>
-    Task<Todo?> GetByIdAsync(string id);
+    Task<Todo> GetByIdAsync(string id);
     /// <summary>
     /// <para>
     /// Asynchronous method for creating a new <see cref="Todo"/> and persisting it to the DB.

@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
 
 namespace TodoListSPA.Helpers;
 
@@ -37,4 +40,56 @@ public static class ExtensionMethods
         }
         return list;
     }
+
+    #region Enum Extensions
+    /// <summary>
+    /// <para>
+    /// Gets the value of the Display attribute on an enum's value.
+    /// Or <see cref="string.Empty"/> if the attribute is not present.
+    /// </para>
+    /// </summary>
+    /// <param name="enumValue">Enum value to target.</param>
+    /// <returns>String content of <paramref name="enumValue"/> or <see cref="string.Empty"/>.</returns>
+    public static string GetDisplayName(this Enum enumValue)
+    {
+        return enumValue.GetType()?
+                        .GetMember(enumValue.ToString())?
+                        .First()?
+                        .GetCustomAttribute<DisplayAttribute>()?
+                        .GetName() ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Determines whether the enum value contains a specific value.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     <c>true</c> if value contains the specified value; otherwise, <c>false</c>.
+    /// </returns>
+    public static bool Contains<T>(this Enum value, T request)
+    {
+        int valueAsInt = Convert.ToInt32(value, CultureInfo.InvariantCulture);
+        int requestAsInt = Convert.ToInt32(request, CultureInfo.InvariantCulture);
+
+        if (requestAsInt == (valueAsInt & requestAsInt))
+            return true;
+
+        return false;
+    }
+
+    /// <summary>
+    /// Gets all items for an enum value.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="value">The value.</param>
+    /// <returns></returns>
+    public static IEnumerable<T> GetAllItems<T>(this Enum _)
+    {
+        foreach (object item in Enum.GetValues(typeof(T)))
+        {
+            yield return (T)item;
+        }
+    }
+    #endregion
 }
